@@ -1,0 +1,41 @@
+name: Feature request
+description: Suggest a capability or behavior change.
+title: 'feat: '
+labels: ['enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the problem first, then the proposed solution. Mentions of
+        other agent harnesses are useful context, not requirements.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is hard or missing today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Host / session model
+        - Client UI
+        - Context injection
+        - Tools and relay
+        - Usage stats
+        - Packaging / install
+        - Documentation
+    validations:
+      required: true

@@ -10,6 +10,10 @@
     "./locale/*.json": "./locale/*.json",
     "./icon": "./icon.svg"
   },
+  "scripts": {
+    "check": "node --check index.js && node --check client.js && node scripts/validate.mjs",
+    "pack:check": "npm pack --dry-run"
+  },
   "files": [
     "index.js",
     "client.js",

@@ -1,5 +1,8 @@
 # Side Conversation
 
+[![ci](https://github.com/vaniawang/dsh-side-conversation/actions/workflows/ci.yml/badge.svg)](https://github.com/vaniawang/dsh-side-conversation/actions/workflows/ci.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 A DeepSeek Harness plugin that opens a native side conversation next to the
 current conversation.
 
@@ -59,6 +62,15 @@ dsh plugin --profile <profile> add /path/to/dsh-side-conversation
 
 Reload the Web UI after installation if the plugin list does not refresh itself.
 
+If the package is not on npm yet, install from the repository or the release
+tarball:
+
+```sh
+dsh plugin --profile <profile> add github:vaniawang/dsh-side-conversation
+# or
+dsh plugin --profile <profile> add ./dsh-side-conversation-0.1.0.tgz
+```
+
 ## Usage
 
 1. Open a conversation and click the side-conversation button in the header
@@ -101,14 +113,30 @@ not copied; the side agent can read them through normal tools when needed.
 ## Development
 
 ```sh
-node --check index.js
-node --check client.js
-npm pack --dry-run
+npm run check
+npm run pack:check
 npm pack
 ```
 
-The published package contains the host half, the client half, the bundle patch,
-locale metadata, and the icon. There is no build step.
+`npm run check` runs `node --check` on both halves plus the package metadata
+validator in `scripts/validate.mjs`. The published package contains the host
+half, the client half, the bundle patch, locale metadata, and the icon. There is
+no build step.
+
+## Contributing
+
+Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for
+the local checks and commit conventions. The release process is documented in
+[PUBLISHING.md](PUBLISHING.md).
+
+## Security
+
+Report vulnerabilities privately through GitHub security advisories. See
+[SECURITY.md](SECURITY.md).
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
