@@ -1,6 +1,7 @@
 # Side Conversation
 
 [![ci](https://github.com/vaniawang/dsh-side-conversation/actions/workflows/ci.yml/badge.svg)](https://github.com/vaniawang/dsh-side-conversation/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/dsh-side-conversation.svg)](https://www.npmjs.com/package/dsh-side-conversation)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A DeepSeek Harness plugin that opens a native side conversation next to the
@@ -46,7 +47,8 @@ conclusion back to the parent, and it reports its own token and cache usage.
 
 In DSH Desktop, open **Settings → Plugins**, search for `dsh-side-conversation`,
 and install it. The plugin manager links or installs the bundle into the active
-profile.
+profile. The npm package is published as
+[`dsh-side-conversation`](https://www.npmjs.com/package/dsh-side-conversation).
 
 From a terminal with the DSH CLI:
 

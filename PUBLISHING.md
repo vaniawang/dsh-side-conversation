@@ -11,14 +11,26 @@ the upstream repository does not accept external pull requests.
 - `package.json` already points `repository` at the GitHub repo; keep it in sync
   if the repository moves. The curated market uses this field to link npm and
   GitHub entries.
-- npm publishing is still pending `npm login`.
+- npm: <https://www.npmjs.com/package/dsh-side-conversation> (`0.1.0`).
+- npm uses staged publishing for new packages: the first publish created a
+  `0.0.0-stage` placeholder and the `0.1.0` version. Future releases must be
+  staged and approved by a maintainer with 2FA (see below).
 
 ## Release checklist
 
 1. `npm run check` and `npm run pack:check`.
 2. Bump `version` in `package.json` and add a `CHANGELOG.md` entry.
-3. `npm publish --dry-run`, then `npm publish`. Unscoped packages are public by
-   default; pass `--otp=<code>` when the account uses 2FA for writes.
+3. Staged publishing is required by npm for new packages. Use npm CLI 11.15 or
+   newer, stage the tarball, and approve it with a 2FA code:
+
+   ```sh
+   npx npm@11.15.0 stage publish
+   npx npm@11.15.0 stage list
+   npx npm@11.15.0 stage approve <stage-id> --otp=<code>
+   ```
+
+   Non-staged `npm publish` still works for already-published version lines when
+   the account can satisfy npm's proof-of-presence challenge.
 4. Create a GitHub release tag and attach the tarball.
 5. Verify:
 
