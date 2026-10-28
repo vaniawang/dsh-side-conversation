@@ -1,0 +1,5 @@
+# Bundle layer for dsh-side-conversation.
+# The client half is declared by package.json's dsh.client section.
+- insert:
+    - id: dsh-side-conversation
+      name: 'dsh-side-conversation'

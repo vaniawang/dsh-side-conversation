@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Side Conversation",
+    "description": "Fork the current conversation into a native sidebar session with live context, relay back to the parent, and token/cache usage."
+  }
+}

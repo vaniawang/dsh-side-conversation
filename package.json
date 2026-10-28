@@ -1,0 +1,68 @@
+{
+  "name": "dsh-side-conversation",
+  "version": "0.1.0",
+  "description": "Native side conversations for DeepSeek Harness: fork the current conversation into a sidebar session with live context, relay, and usage stats.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.19.0",
+    "dsh": ">=0.2.1-rc.1 <0.3.0-0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "cordis",
+    "side-chat",
+    "side-conversation",
+    "ai-agent"
+  ],
+  "license": "MIT",
+  "author": "dsh-side-conversation contributors",
+  "icon": "icon.svg",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaniawang/dsh-side-conversation.git"
+  },
+  "homepage": "https://github.com/vaniawang/dsh-side-conversation#readme",
+  "bugs": {
+    "url": "https://github.com/vaniawang/dsh-side-conversation/issues"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-sidebar-right"
+      ]
+    }
+  }
+}
