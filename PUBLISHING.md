@@ -21,16 +21,18 @@ the upstream repository does not accept external pull requests.
 1. `npm run check` and `npm run pack:check`.
 2. Bump `version` in `package.json` and add a `CHANGELOG.md` entry.
 3. Staged publishing is required by npm for new packages. Use npm CLI 11.15 or
-   newer, stage the tarball, and approve it with a 2FA code:
+   newer, stage the tarball, and approve it with a maintainer 2FA challenge:
 
    ```sh
    npx npm@11.15.0 stage publish
    npx npm@11.15.0 stage list
-   npx npm@11.15.0 stage approve <stage-id> --otp=<code>
+   npx npm@11.15.0 stage approve <stage-id>
    ```
 
-   Non-staged `npm publish` still works for already-published version lines when
-   the account can satisfy npm's proof-of-presence challenge.
+   TOTP accounts pass `--otp=<code>`. Accounts using a WebAuthn security key are
+   prompted in the browser instead. Non-staged `npm publish` still works for
+   already-published version lines when the account can satisfy the same
+   proof-of-presence challenge.
 4. Create a GitHub release tag and attach the tarball.
 5. Verify:
 
