@@ -1,6 +1,6 @@
 {
   "name": "dsh-side-conversation",
-  "version": "0.1.0",
+  "version": "0.6.0",
   "description": "Native side conversations for DeepSeek Harness: fork the current conversation into a sidebar session with live context, relay, and usage stats.",
   "type": "module",
   "main": "index.js",
@@ -11,12 +11,14 @@
     "./icon": "./icon.svg"
   },
   "scripts": {
-    "check": "node --check index.js && node --check client.js && node scripts/validate.mjs",
+    "check": "node --check index.js && node --check client.js && node --check src/context.js && node --test && node scripts/validate.mjs",
+    "test": "node --test",
     "pack:check": "npm pack --dry-run"
   },
   "files": [
     "index.js",
     "client.js",
+    "src/*.js",
     "cordis.patch.yml",
     "locale/*.json",
     "icon.svg",

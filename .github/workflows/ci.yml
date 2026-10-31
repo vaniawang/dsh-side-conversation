@@ -21,5 +21,7 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: node --check index.js
       - run: node --check client.js
+      - run: node --check src/context.js
+      - run: npm test
       - run: node scripts/validate.mjs
       - run: npm pack --dry-run

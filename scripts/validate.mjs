@@ -28,7 +28,7 @@ if (!existsSync(patchPath)) {
   if (!patch.includes(`name: '${pkg.name}'`)) errors.push(`bundle patch must insert a row named '${pkg.name}'`)
 }
 
-for (const entry of ['client.js', 'index.js', 'icon.svg', 'README.md', 'LICENSE']) {
+for (const entry of ['client.js', 'index.js', 'src/context.js', 'icon.svg', 'README.md', 'LICENSE']) {
   if (!existsSync(new URL(`../${entry}`, import.meta.url))) errors.push(`missing packaged file: ${entry}`)
 }
 

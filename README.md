@@ -15,6 +15,11 @@ completed history, runs with the normal conversation UI and tools, and receives
 a live snapshot of the parent on every request. It can relay a request or
 conclusion back to the parent, and it reports its own token and cache usage.
 
+It is deliberately a **Live Side Branch**, not a second subagent catalog. The
+official DSH `subagentchat` Sidebar is the place to browse and continue real
+subagent children; this plugin is for a human side branch that needs live parent
+context and relay.
+
 ## Features
 
 - **Native conversation surface** — the side chat uses the host's own chat view,
@@ -24,9 +29,13 @@ conclusion back to the parent, and it reports its own token and cache usage.
   turn boundary. Reopening before the parent advances resumes the same side
   session; after the parent completes a new turn, a fresh fork is created from
   the new boundary.
-- **Live parent context** — every request includes the parent's current state:
-  running/idle status, in-flight reasoning and response excerpts, tool calls in
-  flight or awaiting results, and a recent-message tail.
+- **Live parent context with Inline & Spill** — every request includes the
+  parent's current state plus a compact reference index (message/tool IDs, short
+  snippets, in-flight refs). Long bodies stay out of the window until the model
+  asks for one exact ref.
+- **Chain recall** — `recall_main_conversation({kind, id})` expands one parent
+  message or tool call and returns the next-hop refs, so a long parent history
+  is walked on demand instead of being dumped into every request.
 - **Conversation boundary** — inherited history is reference material. The side
   agent is instructed not to continue the parent task or mutate the workspace
   unless explicitly asked.
@@ -37,10 +46,13 @@ conclusion back to the parent, and it reports its own token and cache usage.
 - **Usage stats** — a badge shows the last request and cumulative token/cache
   usage; the `read_main_conversation` tool lets the agent request a larger
   parent snapshot.
+- **History** — the History control in the side chat lists earlier side
+  conversations for the parent conversation and reopens them in their own tab.
 
 ## Requirements
 
-- DeepSeek Harness `0.2.1-rc.1` or newer on the `0.2.1` line (`engines.dsh`).
+- DeepSeek Harness `0.2.1-rc.1` or newer on the `0.2.1` line (`engines.dsh`);
+  the current build is tested against `0.2.1-rc.5`.
 - Node.js 22.19 or newer.
 
 ## Installation
@@ -92,6 +104,8 @@ The host half watches the parent conversation and the side agents:
   parent's latest completed turn boundary.
 - `GET /dsh-side-conversation/stats` returns token, cache, and context usage for
   a live side session.
+- `GET /dsh-side-conversation/history` lists earlier side sessions for a parent
+  conversation.
 - `GET /dsh-side-conversation/health` reports the host and client build.
 
 The side session is an ordinary session with its own agent, so it does not
@@ -102,7 +116,7 @@ per-agent prompt sections.
 ## Compatibility
 
 The plugin targets the `0.2.1` release line and is tested against
-`0.2.1-rc.3`. It uses only public Harness extension points (Web routes, agent
+`0.2.1-rc.5`. It uses only public Harness extension points (Web routes, agent
 tools, prompt sections, session API, and client slots).
 
 ## Privacy

@@ -14,14 +14,18 @@ window.__ModuleLoader__.load({
 
     const PLUGIN = 'dsh-side-conversation'
     const TAB_ID = PLUGIN
-    const TAB_KIND = 'sidechat'
-    const RESOURCE_PROTOCOL = 'sidechat'
-    const RESOURCE_PREFIX = 'dsh-resource://sidechat/session/'
+    const TAB_KIND = 'sideconversation'
+    const RESOURCE_PROTOCOL = 'sideconversation'
+    const RESOURCE_PREFIX = 'dsh-resource://sideconversation/session/'
     const CONVERSATION_SLOT = 'dsh-side-conversation.conversation'
     const OPEN_PATH = '/dsh-side-conversation/open'
     const STATS_PATH = '/dsh-side-conversation/stats'
+    const HISTORY_PATH = '/dsh-side-conversation/history'
+    const RESTORE_PATH = '/dsh-side-conversation/restore'
+    const RELAY_PENDING_PATH = '/dsh-side-conversation/relay/pending'
+    const RELAY_DECISION_PATH = '/dsh-side-conversation/relay/decision'
     const HEALTH_PATH = '/dsh-side-conversation/health'
-    const BUILD = '0.1.0'
+    const BUILD = '0.6.0'
 
     const EN = {
       tabTitle: 'Side Conversation',
@@ -34,6 +38,15 @@ window.__ModuleLoader__.load({
       loading: 'Loading side conversation...',
       noSession: 'Close this tab and reopen the side conversation from the header button.',
       cache: 'cache',
+      history: 'History',
+      historyTitle: 'Side conversations',
+      historyLoading: 'Loading...',
+      historyEmpty: 'No earlier side conversations.',
+      historyUnavailable: 'History is unavailable for this conversation.',
+      historyCurrent: 'current',
+      relayTitle: 'Relay to main conversation',
+      relayApprove: 'Send',
+      relayReject: 'Discard',
     }
 
     const ZH = {
@@ -47,6 +60,15 @@ window.__ModuleLoader__.load({
       loading: '正在加载侧边对话...',
       noSession: '请关闭此页签，再用右上角气泡按钮重新打开侧边对话。',
       cache: '缓存',
+      history: '历史',
+      historyTitle: '历史侧边对话',
+      historyLoading: '正在加载...',
+      historyEmpty: '没有更早的侧边对话。',
+      historyUnavailable: '当前对话无法查看历史。',
+      historyCurrent: '当前',
+      relayTitle: '转达到主对话',
+      relayApprove: '发送',
+      relayReject: '丢弃',
     }
 
     const styles = {
@@ -94,6 +116,122 @@ window.__ModuleLoader__.load({
         fontVariantNumeric: 'tabular-nums',
         whiteSpace: 'nowrap',
         opacity: 0.9,
+      },
+      relayBar: {
+        position: 'absolute',
+        left: '10px',
+        right: '10px',
+        bottom: '10px',
+        zIndex: 6,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '6px',
+        padding: '8px',
+        borderRadius: '9px',
+        border: '1px solid var(--dsw-alias-border-l1)',
+        background: 'var(--dsw-alias-bg-overlay)',
+        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.18)',
+      },
+      relayText: {
+        maxHeight: '58px',
+        overflow: 'hidden',
+        color: 'var(--dsw-alias-label-primary)',
+        fontSize: '11px',
+        lineHeight: '16px',
+        wordBreak: 'break-word',
+      },
+      relayActions: { display: 'flex', justifyContent: 'flex-end', gap: '6px' },
+      relayButton: {
+        padding: '2px 10px',
+        borderRadius: '6px',
+        border: '1px solid var(--dsw-alias-border-l1)',
+        background: 'transparent',
+        color: 'var(--dsw-alias-label-secondary)',
+        fontSize: '11px',
+        lineHeight: '16px',
+        cursor: 'pointer',
+      },
+      relayButtonPrimary: {
+        padding: '2px 10px',
+        borderRadius: '6px',
+        border: '1px solid var(--dsw-alias-border-l1)',
+        background: 'var(--dsw-alias-bg-l2)',
+        color: 'var(--dsw-alias-label-primary)',
+        fontSize: '11px',
+        lineHeight: '16px',
+        fontWeight: 600,
+        cursor: 'pointer',
+      },
+      historyButton: {
+        position: 'absolute',
+        top: '6px',
+        left: '10px',
+        zIndex: 5,
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '4px',
+        padding: '1px 8px',
+        borderRadius: '999px',
+        border: '1px solid var(--dsw-alias-border-l1)',
+        background: 'var(--dsw-alias-bg-overlay)',
+        color: 'var(--dsw-alias-label-secondary)',
+        fontSize: '10px',
+        lineHeight: '16px',
+        cursor: 'pointer',
+      },
+      historyPanel: {
+        position: 'absolute',
+        top: '30px',
+        left: '10px',
+        zIndex: 6,
+        width: '300px',
+        maxWidth: 'calc(100% - 20px)',
+        maxHeight: '320px',
+        overflowY: 'auto',
+        padding: '4px',
+        borderRadius: '9px',
+        border: '1px solid var(--dsw-alias-border-l1)',
+        background: 'var(--dsw-alias-bg-overlay)',
+        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.18)',
+      },
+      historyHeader: {
+        padding: '6px 8px',
+        color: 'var(--dsw-alias-label-secondary)',
+        fontSize: '11px',
+        fontWeight: 600,
+      },
+      historyEmpty: {
+        padding: '6px 8px 8px',
+        color: 'var(--dsw-alias-label-secondary)',
+        fontSize: '11px',
+        lineHeight: '16px',
+      },
+      historyItem: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2px',
+        width: '100%',
+        padding: '6px 8px',
+        border: 'none',
+        borderRadius: '6px',
+        background: 'transparent',
+        color: 'var(--dsw-alias-label-primary)',
+        font: 'inherit',
+        textAlign: 'left',
+        cursor: 'pointer',
+      },
+      historyName: {
+        maxWidth: '100%',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        fontSize: '11px',
+        lineHeight: '16px',
+      },
+      historyMeta: {
+        color: 'var(--dsw-alias-label-secondary)',
+        fontSize: '10px',
+        lineHeight: '14px',
       },
       toast: {
         position: 'fixed',
@@ -185,6 +323,26 @@ window.__ModuleLoader__.load({
       } catch {
         return undefined
       }
+    }
+
+    function historyIcon(size) {
+      return h(
+        'svg',
+        { width: size, height: size, viewBox: '0 0 16 16', fill: 'none', 'aria-hidden': true },
+        h('path', {
+          d: 'M8 3.4a4.6 4.6 0 1 1-4.4 5.9M8 3.4V1.6M8 3.4h1.8M8 4.8v3.4l2.2 1.3',
+          stroke: 'currentColor',
+          strokeWidth: 1.2,
+          strokeLinecap: 'round',
+          strokeLinejoin: 'round',
+        }),
+      )
+    }
+
+    function formatHistoryTime(value) {
+      const date = new Date(Number(value) || 0)
+      if (!Number.isFinite(date.getTime())) return ''
+      return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) + ' ' + date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })
     }
 
     function ChatView(props) {
@@ -290,6 +448,10 @@ window.__ModuleLoader__.load({
           const [reference, setReference] = useState(null)
           const [failure, setFailure] = useState('')
           const [stats, setStats] = useState(null)
+          const [historyOpen, setHistoryOpen] = useState(false)
+          const [history, setHistory] = useState(null)
+          const [historyError, setHistoryError] = useState('')
+          const [relays, setRelays] = useState([])
 
           useEffect(() => {
             setReference(null)
@@ -316,6 +478,12 @@ window.__ModuleLoader__.load({
           }, [targetSessionId])
 
           useEffect(() => {
+            setHistoryOpen(false)
+            setHistory(null)
+            setHistoryError('')
+          }, [targetSessionId])
+
+          useEffect(() => {
             setStats(null)
             if (!targetSessionId) return undefined
             let cancelled = false
@@ -335,6 +503,105 @@ window.__ModuleLoader__.load({
               if (timer !== 0) clearInterval(timer)
             }
           }, [targetSessionId])
+
+          useEffect(() => {
+            setRelays([])
+            if (!targetSessionId) return undefined
+            let cancelled = false
+            let timer = 0
+            const load = () => {
+              fetch(RELAY_PENDING_PATH + '?sessionId=' + encodeURIComponent(targetSessionId))
+                .then((response) => response.json().catch(() => null))
+                .then((data) => {
+                  if (!cancelled && data?.ok) setRelays(Array.isArray(data.relays) ? data.relays : [])
+                })
+                .catch(() => {})
+            }
+            load()
+            timer = setInterval(load, 4000)
+            return () => {
+              cancelled = true
+              if (timer !== 0) clearInterval(timer)
+            }
+          }, [targetSessionId])
+
+          const decideRelay = useCallback(
+            (relayId, approve) => {
+              fetch(RELAY_DECISION_PATH, {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ sessionId: targetSessionId, relayId, approve }),
+              })
+                .then((response) => response.json().catch(() => null))
+                .then((data) => {
+                  if (!data?.ok) throw new Error(data?.error ?? 'relay-decision-failed')
+                  setRelays((current) => current.filter((entry) => entry.id !== relayId))
+                })
+                .catch((error) => showToast(t('errorTitle'), String(error?.message ?? error)))
+            },
+            [targetSessionId],
+          )
+
+          const parentSessionId = stats?.parentSessionId ?? ''
+
+          const loadHistory = useCallback(() => {
+            if (!parentSessionId) return
+            setHistoryError('')
+            setHistory(null)
+            fetch(HISTORY_PATH + '?parentSessionId=' + encodeURIComponent(parentSessionId))
+              .then((response) => response.json().catch(() => null))
+              .then((data) => {
+                if (data?.ok) setHistory(Array.isArray(data.sessions) ? data.sessions : [])
+                else {
+                  setHistory([])
+                  setHistoryError(t('historyUnavailable'))
+                }
+              })
+              .catch(() => {
+                setHistory([])
+                setHistoryError(t('historyUnavailable'))
+              })
+          }, [parentSessionId])
+
+          const toggleHistory = useCallback(() => {
+            if (!parentSessionId) return
+            if (!historyOpen && history === null) loadHistory()
+            setHistoryOpen((value) => !value)
+          }, [historyOpen, history, loadHistory, parentSessionId])
+
+          const openHistorical = useCallback(
+            (sessionId) => {
+              setHistoryOpen(false)
+              const target = String(sessionId)
+              if (target === String(targetSessionId ?? '')) return
+              const sidebarRight = ctx.get('sidebarRight')
+              const sessionsService = ctx.sessions || ctx.get('sessions')
+              if (sessionsService && typeof sessionsService.refresh === 'function' && sidebarRight && typeof sidebarRight.openResource === 'function') {
+                sessionsService
+                  .refresh()
+                  .then(() => {
+                    sidebarRight.openResource(RESOURCE_PREFIX + encodeURIComponent(target), { kind: TAB_KIND })
+                  })
+                  .catch((error) => showToast(t('errorTitle'), String(error?.message ?? error)))
+                return
+              }
+              fetch(RESTORE_PATH, {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ sessionId: target, parentSessionId }),
+              })
+                .then((response) =>
+                  response.json().then((data) => {
+                    if (!response.ok || data?.ok !== true) throw new Error(data?.error ?? 'HTTP ' + response.status)
+                    if (sidebarRight && typeof sidebarRight.openResource === 'function') {
+                      sidebarRight.openResource(RESOURCE_PREFIX + encodeURIComponent(String(data.restoredId)), { kind: TAB_KIND })
+                    }
+                  }),
+                )
+                .catch((error) => showToast(t('errorTitle'), String(error?.message ?? error)))
+            },
+            [parentSessionId, targetSessionId],
+          )
 
           if (!targetSessionId) return h('div', { style: styles.root }, h('div', { style: styles.loading }, t('noSession')))
           if (failure !== '') return h('div', { style: styles.root }, h('div', { style: styles.loading }, failure))
@@ -362,11 +629,79 @@ window.__ModuleLoader__.load({
             badge = h('div', { style: styles.badge, title, 'aria-label': title }, 'in ' + formatTokens(input) + ' · ' + percent + '% ' + t('cache'))
           }
 
+          let historyPanel = null
+          if (historyOpen) {
+            const entries = history ?? []
+            historyPanel = h(
+              'div',
+              { style: styles.historyPanel },
+              h('div', { style: styles.historyHeader }, t('historyTitle')),
+              historyError !== ''
+                ? h('div', { style: styles.historyEmpty }, historyError)
+                : history === null
+                  ? h('div', { style: styles.historyEmpty }, t('historyLoading'))
+                  : entries.length === 0
+                    ? h('div', { style: styles.historyEmpty }, t('historyEmpty'))
+                    : entries.map((entry) =>
+                        h(
+                          'button',
+                          {
+                            key: entry.id,
+                            type: 'button',
+                            style: styles.historyItem,
+                            title: entry.id,
+                            onClick: () => openHistorical(entry.id),
+                          },
+                          h('span', { style: styles.historyName }, entry.title || entry.id),
+                          h(
+                            'span',
+                            { style: styles.historyMeta },
+                            [formatHistoryTime(entry.createdAt), entry.live ? 'live' : '', String(entry.id) === String(targetSessionId) ? t('historyCurrent') : '']
+                              .filter(Boolean)
+                              .join(' · '),
+                          ),
+                        ),
+                      ),
+            )
+          }
+
+          const historyButton = h(
+            'button',
+            {
+              type: 'button',
+              style: parentSessionId ? styles.historyButton : { ...styles.historyButton, opacity: 0.5, cursor: 'default' },
+              disabled: !parentSessionId,
+              title: t('historyTitle'),
+              onClick: toggleHistory,
+            },
+            historyIcon(12),
+            h('span', null, t('history')),
+          )
+
+          let relayBar = null
+          if (relays.length > 0) {
+            const entry = relays[0]
+            relayBar = h(
+              'div',
+              { style: styles.relayBar },
+              h('div', { style: styles.relayText }, entry.text),
+              h(
+                'div',
+                { style: styles.relayActions },
+                h('button', { type: 'button', style: styles.relayButton, onClick: () => decideRelay(entry.id, false) }, t('relayReject')),
+                h('button', { type: 'button', style: styles.relayButtonPrimary, onClick: () => decideRelay(entry.id, true) }, t('relayApprove')),
+              ),
+            )
+          }
+
           return h(
             'div',
             { style: styles.root, 'data-sidebar-chat': '' },
             h(SessionProvider, { session: reference }, renderSlot(CONVERSATION_SLOT, {})),
             badge,
+            historyButton,
+            historyPanel,
+            relayBar,
           )
         }
 
@@ -415,7 +750,7 @@ window.__ModuleLoader__.load({
                   scope.sidebarRightTabs.register({
                     id: TAB_ID,
                     kind: TAB_KIND,
-                    patterns: ['dsh-resource://sidechat/session/**'],
+                    patterns: ['dsh-resource://sideconversation/session/**'],
                     priority: 'extension',
                     title: () => t('tabTitle'),
                   }),

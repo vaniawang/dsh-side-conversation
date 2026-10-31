@@ -7,14 +7,13 @@ the upstream repository does not accept external pull requests.
 ## Current state
 
 - GitHub repository: <https://github.com/vaniawang/dsh-side-conversation>
-- Release `v0.1.0` with the npm tarball asset is published.
+- Current release line: `0.6.0`.
 - `package.json` already points `repository` at the GitHub repo; keep it in sync
   if the repository moves. The curated market uses this field to link npm and
   GitHub entries.
-- npm: <https://www.npmjs.com/package/dsh-side-conversation> (`0.1.0`).
-- npm uses staged publishing for new packages: the first publish created a
-  `0.0.0-stage` placeholder and the `0.1.0` version. Future releases must be
-  staged and approved by a maintainer with 2FA (see below).
+- npm: <https://www.npmjs.com/package/dsh-side-conversation>.
+- npm uses staged publishing for new packages: future releases must be staged
+  and approved by a maintainer with 2FA (see below).
 
 ## Release checklist
 
